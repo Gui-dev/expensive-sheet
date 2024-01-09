@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "tsx watch --ignore node_modules src/index.ts"
+    "dev": "tsx watch --env-file=.env --ignore node_modules src/index.ts"
   },
   "keywords": [],
   "author": "",

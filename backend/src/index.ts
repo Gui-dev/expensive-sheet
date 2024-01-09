@@ -4,7 +4,7 @@ import bodyParser from 'koa-bodyparser'
 import { router } from './routes'
 
 const app = new Koa()
-const PORT = Number(3333) || process.env.PORT
+const PORT = process.env.SERVER_PORT ?? process.env.PORT
 app.use(bodyParser())
 
 app.use(router.routes())

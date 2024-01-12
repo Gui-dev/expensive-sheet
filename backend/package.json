@@ -2,9 +2,9 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "dev": "tsx watch --env-file=.env --ignore node_modules src/index.ts"
+    "dev": "tsx watch --env-file=.env --ignore node_modules src/server.ts"
   },
   "keywords": [],
   "author": "",
@@ -13,7 +13,8 @@
     "@koa/router": "^12.0.1",
     "@prisma/client": "^5.8.0",
     "koa": "^2.15.0",
-    "koa-bodyparser": "^4.4.1"
+    "koa-bodyparser": "^4.4.1",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@types/koa": "^2.13.12",

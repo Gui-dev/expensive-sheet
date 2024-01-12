@@ -15,7 +15,8 @@
     "@typescript-eslint"
   ],
   "rules": {
-    "camelcase": "off",
+    "camelCase": "off",
+    "@typescript-eslint/naming-convention": "off",
     "@typescript-eslint/strict-boolean-expressions": "off",
     "@typescript-eslint/no-unsafe-argument": "off",
     "prettier/prettier": [

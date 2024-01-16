@@ -1,4 +1,5 @@
 import { type Context, type Next } from 'koa'
+import bcrypt from 'bcrypt'
 
 import { prisma } from './../../services/prisma'
 import { userCreateValidation } from './validations/user-create'
@@ -7,6 +8,7 @@ import {
   userUpdateValidation,
 } from './validations/user-update'
 import { userDeleteIdParamValidation } from './validations/user-delete'
+import { userView } from '../../shared/views/user'
 
 export const userList = async (ctx: Context, response: Next): Promise<void> => {
   const users = await prisma.user.findMany()
@@ -33,20 +35,22 @@ export const userCreate = async (
   })
 
   if (user_already_exists) {
-    ctx.status = 401
+    ctx.status = 409
     ctx.body = 'user already exists'
     return
   }
-
+  const hashed_password = await bcrypt.hash(password, 10)
   const user = await prisma.user.create({
     data: {
       name,
       email,
-      password,
+      password: hashed_password,
     },
   })
+  const user_view = userView(user)
+
   ctx.status = 201
-  ctx.body = user
+  ctx.body = user_view
 }
 
 export const userUpdate = async (

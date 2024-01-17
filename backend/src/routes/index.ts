@@ -10,6 +10,6 @@ router.post('/users', userCreate)
 router.put('/users/:user_id', userUpdate)
 router.delete('/users/:user_id', userRemove)
 
-router.post('/login', login)
+router.get('/login', login)
 
 export { router }

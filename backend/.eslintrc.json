@@ -1,7 +1,8 @@
 {
   "env": {
     "es2021": true,
-    "node": true
+    "node": true,
+    "jest": true
   },
   "extends": [
     "standard-with-typescript",
@@ -20,6 +21,7 @@
     "@typescript-eslint/strict-boolean-expressions": "off",
     "@typescript-eslint/no-unsafe-argument": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/no-throw-literal": "off",
     "prettier/prettier": [
       "error",
       {

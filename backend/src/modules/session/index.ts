@@ -5,19 +5,32 @@ import jwt from 'jsonwebtoken'
 import { loginValidation } from './validations/login'
 import { prisma } from '../../services/prisma'
 import { userView } from '../../shared/views/user'
+import { AppError } from '../../shared/error/app-error'
 
-export const login = async (ctx: Context, next: Next): Promise<void> => {
-  const hashed_request = ctx.request.headers.authorization
+interface GetCredentialsByAuthHeaderResponse {
+  email_credential: string
+  password_credential: string
+}
 
-  if (!hashed_request) {
-    ctx.status = 400
-    ctx.body = 'Hashed invalid'
-    return
+export const getCredentialsByAuthHeader = async (
+  authHeader: string | undefined,
+): Promise<GetCredentialsByAuthHeaderResponse> => {
+  if (!authHeader) {
+    throw new AppError('Hashed invalid')
   }
 
-  const [, credentials] = hashed_request.split(' ')
+  const [, credentials] = authHeader.split(' ')
   const credential_result = Buffer.from(credentials, 'base64').toString('ascii')
   const [email_credential, password_credential] = credential_result.split(':')
+  return {
+    email_credential,
+    password_credential,
+  }
+}
+
+export const login = async (ctx: Context, next: Next): Promise<void> => {
+  const { email_credential, password_credential } =
+    await getCredentialsByAuthHeader(ctx.request.headers.authorization)
 
   const { email, password } = loginValidation.parse({
     email: email_credential,
@@ -31,17 +44,13 @@ export const login = async (ctx: Context, next: Next): Promise<void> => {
   })
 
   if (!user) {
-    ctx.status = 401
-    ctx.body = 'Email or password wrong'
-    return
+    throw new AppError('Email or password wrong', 401)
   }
 
   const compare_password = await bcrypt.compare(password, user.password)
 
   if (!compare_password) {
-    ctx.status = 401
-    ctx.body = 'Email or password wrong'
-    return
+    throw new AppError('Email or password wrong', 401)
   }
 
   const token = jwt.sign({ sub: user.id }, process.env.SECRET_WORD, {

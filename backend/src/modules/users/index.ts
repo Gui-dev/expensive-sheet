@@ -9,6 +9,7 @@ import {
 } from './validations/user-update'
 import { userDeleteIdParamValidation } from './validations/user-delete'
 import { userView } from '../../shared/views/user'
+import { AppError } from '../../shared/error/app-error'
 
 export const userList = async (ctx: Context, response: Next): Promise<void> => {
   const users = await prisma.user.findMany()
@@ -35,9 +36,7 @@ export const userCreate = async (
   })
 
   if (user_already_exists) {
-    ctx.status = 409
-    ctx.body = 'user already exists'
-    return
+    throw new AppError('User already exists', 409)
   }
   const hashed_password = await bcrypt.hash(password, 10)
   const user = await prisma.user.create({
@@ -67,9 +66,7 @@ export const userUpdate = async (
   })
 
   if (!user_exists) {
-    ctx.status = 401
-    ctx.body = 'user not found'
-    return
+    throw new AppError('User not found', 401)
   }
 
   const user = await prisma.user.update({
@@ -99,9 +96,7 @@ export const userRemove = async (
   })
 
   if (!user_exists) {
-    ctx.status = 401
-    ctx.body = 'user not found'
-    return
+    throw new AppError('User not found', 401)
   }
 
   await prisma.user.delete({

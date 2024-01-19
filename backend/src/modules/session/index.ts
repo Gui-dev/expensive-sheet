@@ -6,32 +6,7 @@ import { loginValidation } from './validations/login'
 import { prisma } from '../../services/prisma'
 import { userView } from '../../shared/views/user'
 import { AppError } from '../../shared/error/app-error'
-
-interface IDecodeBasicTokenResponse {
-  email_credential: string
-  password_credential: string
-}
-
-export const decodeBasicToken = async (
-  basic_token: string,
-): Promise<IDecodeBasicTokenResponse> => {
-  if (!basic_token) {
-    throw new AppError('Hashed invalid')
-  }
-
-  const [, credentials] = basic_token.split(' ')
-  const credential_result = Buffer.from(credentials, 'base64').toString('ascii')
-
-  if (!credential_result.includes(':')) {
-    throw new AppError('Credentials are in the wrong format')
-  }
-
-  const [email_credential, password_credential] = credential_result.split(':')
-  return {
-    email_credential,
-    password_credential,
-  }
-}
+import { decodeBasicToken } from './services/decode-basic-token'
 
 export const login = async (ctx: Context, next: Next): Promise<void> => {
   const { email_credential, password_credential } = await decodeBasicToken(

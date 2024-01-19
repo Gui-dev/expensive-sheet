@@ -1,4 +1,4 @@
-import { decodeBasicToken } from './../'
+import { decodeBasicToken } from '../services/decode-basic-token'
 import { AppError } from '../../../shared/error/app-error'
 
 describe('Session Module', () => {

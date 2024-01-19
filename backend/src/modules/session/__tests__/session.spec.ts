@@ -1,4 +1,5 @@
 import { decodeBasicToken } from './../'
+import { AppError } from '../../../shared/error/app-error'
 
 describe('Session Module', () => {
   it('should return credentials by basic authentication token', async () => {
@@ -11,5 +12,9 @@ describe('Session Module', () => {
       email_credential: email,
       password_credential: password,
     })
+  })
+
+  it('should throw a exception when basic token is invalid', async () => {
+    await expect(decodeBasicToken('')).rejects.toBeInstanceOf(AppError)
   })
 })

@@ -13,7 +13,7 @@ interface IDecodeBasicTokenResponse {
 }
 
 export const decodeBasicToken = async (
-  basic_token: string | undefined,
+  basic_token: string,
 ): Promise<IDecodeBasicTokenResponse> => {
   if (!basic_token) {
     throw new AppError('Hashed invalid')
@@ -30,7 +30,7 @@ export const decodeBasicToken = async (
 
 export const login = async (ctx: Context, next: Next): Promise<void> => {
   const { email_credential, password_credential } = await decodeBasicToken(
-    ctx.request.headers.authorization,
+    ctx.request.headers.authorization!,
   )
 
   const { email, password } = loginValidation.parse({

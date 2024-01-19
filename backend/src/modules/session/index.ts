@@ -7,19 +7,19 @@ import { prisma } from '../../services/prisma'
 import { userView } from '../../shared/views/user'
 import { AppError } from '../../shared/error/app-error'
 
-interface GetCredentialsByAuthHeaderResponse {
+interface IDecodeBasicTokenResponse {
   email_credential: string
   password_credential: string
 }
 
-export const getCredentialsByAuthHeader = async (
-  authHeader: string | undefined,
-): Promise<GetCredentialsByAuthHeaderResponse> => {
-  if (!authHeader) {
+export const decodeBasicToken = async (
+  basic_token: string | undefined,
+): Promise<IDecodeBasicTokenResponse> => {
+  if (!basic_token) {
     throw new AppError('Hashed invalid')
   }
 
-  const [, credentials] = authHeader.split(' ')
+  const [, credentials] = basic_token.split(' ')
   const credential_result = Buffer.from(credentials, 'base64').toString('ascii')
   const [email_credential, password_credential] = credential_result.split(':')
   return {
@@ -29,8 +29,9 @@ export const getCredentialsByAuthHeader = async (
 }
 
 export const login = async (ctx: Context, next: Next): Promise<void> => {
-  const { email_credential, password_credential } =
-    await getCredentialsByAuthHeader(ctx.request.headers.authorization)
+  const { email_credential, password_credential } = await decodeBasicToken(
+    ctx.request.headers.authorization,
+  )
 
   const { email, password } = loginValidation.parse({
     email: email_credential,

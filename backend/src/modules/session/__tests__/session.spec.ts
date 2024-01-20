@@ -1,7 +1,7 @@
 import { decodeBasicToken } from '../services/decode-basic-token'
 import { AppError } from '../../../shared/error/app-error'
 
-describe('Session Module', () => {
+describe('Session Services', () => {
   it('should return credentials by basic authentication token', async () => {
     const email = 'fake_email'
     const password = 'fake_password'

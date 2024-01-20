@@ -39,3 +39,5 @@ app.use(router.allowedMethods())
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port http://localhost:${PORT}`)
 })
+
+export { app }

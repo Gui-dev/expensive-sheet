@@ -13,4 +13,15 @@ describe('Session /login', () => {
 
     expect(result.statusCode).toBe(401)
   })
+
+  it('should not be able login for the user to log in with the wrong password', async () => {
+    const email = 'bruce@email.com'
+    const password = 'fake_password'
+
+    const result = await supertest(app.callback())
+      .get('/login')
+      .auth(email, password)
+
+    expect(result.statusCode).toBe(401)
+  })
 })

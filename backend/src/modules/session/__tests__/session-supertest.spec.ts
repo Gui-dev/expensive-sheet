@@ -1,5 +1,6 @@
 import supertest from 'supertest'
 import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
 
 import { app } from './../../../server'
 import { prisma } from '../../../services/prisma'
@@ -54,10 +55,12 @@ describe('Session /login', () => {
     const result = await supertest(app.listen())
       .get('/login')
       .auth(email, password)
+    const decoded = jwt.verify(result.body.token, process.env.SECRET_WORD)
 
     expect(result.statusCode).toBe(200)
     expect(result.body).toBeTruthy()
     expect(result.body.user.id).toBeTruthy()
     expect(result.body.token).toBeTruthy()
+    expect(decoded.sub).toBe(result.body.user.id)
   })
 })

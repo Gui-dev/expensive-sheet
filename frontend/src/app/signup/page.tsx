@@ -1,9 +1,9 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { FormSignup } from './form-signup'
+import { FormSignup } from './../components/form-signup'
 
-export const Signup = () => {
+const Signup = () => {
   return (
     <div className="flex h-screen w-full items-center justify-center gap-16">
       <div className="flex w-1/2 flex-col items-center justify-center">
@@ -14,14 +14,14 @@ export const Signup = () => {
           height={0}
           width={0}
           sizes="100vw"
-          className="h-auto max-h-[70%] w-auto max-w-[80%] object-contain"
+          className="h-auto max-h-[70%] w-auto max-w-[70%] object-contain"
         />
       </div>
       <div className="w-1/2">
         <h2 className="mb-8 text-center text-lg">Cadastro</h2>
         <FormSignup />
         <Link
-          href="/login"
+          href="/signin"
           className="mt-8 block text-center text-sm transition-all hover:underline"
         >
           Já tem cadastro? Faça{' '}
@@ -31,3 +31,5 @@ export const Signup = () => {
     </div>
   )
 }
+
+export default Signup

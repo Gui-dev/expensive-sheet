@@ -1,13 +1,15 @@
 import Koa from 'koa'
 import bodyParser from 'koa-bodyparser'
+import { ZodError } from 'zod'
+import cors from '@koa/cors'
 
 import { router } from './routes'
 import { AppError } from './shared/error/app-error'
-import { ZodError } from 'zod'
 
 const app = new Koa()
 const PORT = process.env.SERVER_PORT ?? process.env.PORT
 app.use(bodyParser())
+app.use(cors())
 
 app.use(async (ctx, next) => {
   try {

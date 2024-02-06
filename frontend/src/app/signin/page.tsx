@@ -2,14 +2,13 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import { FormSignin } from '../components/form-signin'
+import { Logo } from '@/components/logo'
 
 const Signin = () => {
   return (
     <div className="flex h-screen flex-1 items-center justify-center">
       <div className="relative flex h-screen flex-1 flex-col items-center justify-center bg-gray-900">
-        <h1 className="absolute left-8 top-8 -mb-16 text-center text-lg text-xs-green">
-          XS
-        </h1>
+        <Logo className="absolute left-8 top-8" />
         <Image
           src="/logo.png"
           alt="Expensive Sheet Logo"

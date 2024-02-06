@@ -1,9 +1,10 @@
 'use client'
 
 import { useForm } from 'react-hook-form'
-import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { Loader, LogIn } from 'lucide-react'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { AxiosError } from 'axios'
 
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -12,11 +13,12 @@ import {
   SigninValidationData,
   signinValidation,
 } from '@/validations/signin-validation'
-import { api } from '@/services/api'
-import { AxiosError } from 'axios'
+import { useAuth } from '@/hooks/useAuth'
 
 export const FormSignin = () => {
-  const [loading, setLoading] = useState(false)
+  const navigation = useRouter()
+  const { loading, login } = useAuth()
+
   const {
     formState: { errors },
     handleSubmit,
@@ -28,17 +30,11 @@ export const FormSignin = () => {
 
   const handleSignin = async ({ email, password }: SigninValidationData) => {
     try {
-      setLoading(true)
-      const response = await api.get('/login', {
-        auth: {
-          username: email,
-          password,
-        },
-      })
-      setLoading(false)
-      console.log('LOGIN: ', response.data)
+      await login({ email, password })
+      navigation.push('/')
     } catch (error) {
       const err = error as AxiosError
+      console.log(err.response?.status)
       if (err.response?.status === 401) {
         setError('email', {
           message: 'E-mail ou senha inválidos',
@@ -47,7 +43,6 @@ export const FormSignin = () => {
           message: 'E-mail ou senha inválidos',
         })
       }
-      setLoading(false)
     }
   }
 

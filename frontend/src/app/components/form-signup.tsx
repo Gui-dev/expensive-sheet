@@ -1,10 +1,12 @@
 'use client'
 
 import { useForm } from 'react-hook-form'
+import { useRouter } from 'next/navigation'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { Loader, UserCheck } from 'lucide-react'
 import { AxiosError } from 'axios'
+import { toast } from 'sonner'
 
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -16,6 +18,7 @@ import {
 import { api } from '@/services/api'
 
 export const FormSignup = () => {
+  const navigation = useRouter()
   const [loading, setLoading] = useState(false)
   const {
     formState: { errors },
@@ -29,9 +32,12 @@ export const FormSignup = () => {
   const handleRegister = async (data: SignupValidationData) => {
     try {
       setLoading(true)
-      const response = await api.post('/users', { ...data })
+      await api.post('/users', { ...data })
       setLoading(false)
-      console.log('DATA: ', response.data)
+      toast('Sucesso', {
+        description: 'Usuário cadastrado',
+      })
+      navigation.push('/signin')
     } catch (error) {
       const err = error as AxiosError
       if (err.response?.status === 409) {

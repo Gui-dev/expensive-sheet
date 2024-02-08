@@ -1,7 +1,7 @@
 'use client'
 
 import { ReactNode, createContext, useEffect, useState } from 'react'
-import { getCookie, setCookie } from 'cookies-next'
+import { deleteCookie, getCookie, setCookie } from 'cookies-next'
 
 import { SigninValidationData } from '@/validations/signin-validation'
 import { api } from '@/services/api'
@@ -17,6 +17,7 @@ interface IAuthContextProps {
   user: IUser | null
   loading: boolean
   login: (data: SigninValidationData) => Promise<void>
+  logout: () => void
 }
 
 interface IAuthProviderProps {
@@ -61,8 +62,14 @@ export const AuthProvider = ({ children }: IAuthProviderProps) => {
     }
   }
 
+  const logout = () => {
+    deleteCookie('@xs:user')
+    deleteCookie('@xs:token')
+    setUser(null)
+  }
+
   return (
-    <AuthContext.Provider value={{ user, login, loading }}>
+    <AuthContext.Provider value={{ user, login, logout, loading }}>
       {children}
     </AuthContext.Provider>
   )

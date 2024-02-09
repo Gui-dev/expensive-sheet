@@ -58,6 +58,7 @@ export const FormSignin = () => {
           placeholder="Digite aqui o seu E-mail"
           id="email"
           className="border border-xs-green"
+          aria-label="email"
           {...register('email')}
         />
         {errors && errors.email && (
@@ -72,6 +73,7 @@ export const FormSignin = () => {
           placeholder="Digite aqui a sua Senha"
           id="password"
           className="border border-xs-green"
+          aria-label="password"
           {...register('password')}
         />
         {errors && errors.password && (
@@ -79,7 +81,7 @@ export const FormSignin = () => {
         )}
       </div>
 
-      <Button className="mt-8">
+      <Button className="mt-8" aria-label="entrar">
         {loading && <Loader className="h-4 w-4 animate-spin text-white" />}
         {!loading && (
           <>

@@ -1,14 +1,10 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 
 import Signin from '../page'
 
 jest.mock('next/navigation', () => ({
-  useRouter() {
-    return {
-      prefetch: () => null,
-    }
-  },
+  useRouter: jest.fn(),
 }))
 
 describe('Sign In Screen <Signin />', () => {
@@ -30,5 +26,20 @@ describe('Sign In Screen <Signin />', () => {
     expect(button).toBeInTheDocument()
     expect(link).toBeInTheDocument()
     expect(link).toHaveAttribute('href', '/signup')
+  })
+
+  it('should show error messages when password field is empty', async () => {
+    render(<Signin />)
+    const email_input = screen.getByPlaceholderText('Digite aqui o seu E-mail')
+
+    const button = screen.getByRole('button', { name: 'entrar' })
+
+    waitFor(() => {
+      fireEvent.change(email_input, { target: { value: 'bruce@email.com' } })
+      fireEvent.click(button)
+    })
+    expect(
+      await screen.findByText('Sua senha deve ter no mínimo 6 caracteres'),
+    ).toBeInTheDocument()
   })
 })

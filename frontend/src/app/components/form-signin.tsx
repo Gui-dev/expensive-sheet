@@ -34,7 +34,6 @@ export const FormSignin = () => {
       navigation.push('/')
     } catch (error) {
       const err = error as AxiosError
-      console.log(err.response?.status)
       if (err.response?.status === 401) {
         setError('email', {
           message: 'E-mail ou senha inválidos',

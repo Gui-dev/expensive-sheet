@@ -42,4 +42,20 @@ describe('Sign In Screen <Signin />', () => {
       await screen.findByText('Sua senha deve ter no mínimo 6 caracteres'),
     ).toBeInTheDocument()
   })
+
+  it('should show error messages when email field is empty', async () => {
+    render(<Signin />)
+    const password_input = screen.getByPlaceholderText(
+      'Digite aqui a sua Senha',
+    )
+    const button = screen.getByRole('button', { name: 'entrar' })
+
+    waitFor(() => {
+      fireEvent.change(password_input, { target: { value: '123456' } })
+      fireEvent.click(button)
+    })
+    expect(
+      await screen.findByText('O e-mail é obrigatório'),
+    ).toBeInTheDocument()
+  })
 })

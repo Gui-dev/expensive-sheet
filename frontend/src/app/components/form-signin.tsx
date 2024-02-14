@@ -23,6 +23,7 @@ export const FormSignin = () => {
     formState: { errors },
     handleSubmit,
     register,
+    reset,
     setError,
   } = useForm<SigninValidationData>({
     resolver: zodResolver(signinValidation),
@@ -31,6 +32,7 @@ export const FormSignin = () => {
   const handleSignin = async ({ email, password }: SigninValidationData) => {
     try {
       await login({ email, password })
+      reset()
       navigation.push('/')
     } catch (error) {
       const err = error as AxiosError

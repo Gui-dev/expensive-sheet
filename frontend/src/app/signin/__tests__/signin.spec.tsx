@@ -34,7 +34,7 @@ describe('Sign In Screen <Signin />', () => {
 
     const button = screen.getByRole('button', { name: 'entrar' })
 
-    waitFor(() => {
+    await waitFor(() => {
       fireEvent.change(email_input, { target: { value: 'bruce@email.com' } })
       fireEvent.click(button)
     })
@@ -50,12 +50,36 @@ describe('Sign In Screen <Signin />', () => {
     )
     const button = screen.getByRole('button', { name: 'entrar' })
 
-    waitFor(() => {
+    await waitFor(() => {
       fireEvent.change(password_input, { target: { value: '123456' } })
       fireEvent.click(button)
     })
     expect(
       await screen.findByText('O e-mail é obrigatório'),
+    ).toBeInTheDocument()
+  })
+
+  it('should show error messages when email field is invalid', async () => {
+    render(<Signin />)
+    const email_input = screen.getByPlaceholderText('Digite aqui o seu E-mail')
+    const button = screen.getByRole('button', { name: 'entrar' })
+
+    await waitFor(() => {
+      fireEvent.click(button)
+    })
+
+    expect(
+      await screen.findByText('O e-mail é obrigatório'),
+    ).toBeInTheDocument()
+
+    await waitFor(() => {
+      fireEvent.change(email_input, { target: { value: 'bruce' } })
+      fireEvent.click(button)
+    })
+
+    expect(email_input).toHaveValue('bruce')
+    expect(
+      await screen.findByText('Digite um e-mail válido'),
     ).toBeInTheDocument()
   })
 })

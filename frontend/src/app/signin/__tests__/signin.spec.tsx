@@ -82,4 +82,27 @@ describe('Sign In Screen <Signin />', () => {
       await screen.findByText('Digite um e-mail válido'),
     ).toBeInTheDocument()
   })
+
+  it('should be able to clean form when submit form', async () => {
+    render(<Signin />)
+
+    const email_input = screen.getByPlaceholderText('Digite aqui o seu E-mail')
+    const password_input = screen.getByPlaceholderText(
+      'Digite aqui a sua Senha',
+    )
+    const button = screen.getByRole('button', { name: 'entrar' })
+
+    await waitFor(() => {
+      fireEvent.change(email_input, { target: { value: 'bruce@email.com' } })
+      fireEvent.change(password_input, { target: { value: '123456' } })
+      fireEvent.click(button)
+    })
+
+    expect(
+      screen.getByPlaceholderText('Digite aqui o seu E-mail'),
+    ).toBeInTheDocument()
+    expect(
+      screen.getByPlaceholderText('Digite aqui a sua Senha'),
+    ).toBeInTheDocument()
+  })
 })

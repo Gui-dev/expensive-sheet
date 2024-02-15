@@ -67,4 +67,21 @@ describe('Sign Up Screen <Signup />', () => {
       await screen.findByText('O e-mail é obrigatório'),
     ).toBeInTheDocument()
   })
+
+  it('should show error messages when password field is empty', async () => {
+    render(<Signup />)
+    const name_input = screen.getByPlaceholderText('Digite aqui o seu Nome')
+    const email_input = screen.getByPlaceholderText('Digite aqui o seu E-mail')
+
+    const button = screen.getByRole('button', { name: 'registrar' })
+
+    await waitFor(() => {
+      fireEvent.change(name_input, { target: { value: 'Bruce Wayne' } })
+      fireEvent.change(email_input, { target: { value: 'bruce@email.com' } })
+      fireEvent.click(button)
+    })
+    expect(
+      await screen.findByText('Sua senha deve ter no mínimo 6 caracteres'),
+    ).toBeInTheDocument()
+  })
 })

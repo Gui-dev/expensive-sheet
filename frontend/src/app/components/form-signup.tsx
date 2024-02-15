@@ -95,7 +95,12 @@ export const FormSignup = () => {
         )}
       </div>
 
-      <Button type="submit" className="mt-8" disabled={loading}>
+      <Button
+        type="submit"
+        className="mt-8"
+        disabled={loading}
+        aria-label="registrar"
+      >
         {loading && <Loader className="h-4 w-4 animate-spin text-white" />}
         {!loading && (
           <>

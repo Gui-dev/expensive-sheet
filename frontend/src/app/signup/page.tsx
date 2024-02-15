@@ -28,6 +28,7 @@ const Signup = () => {
         <Link
           href="/signin"
           className="mt-8 text-sm text-gray-500 transition-all hover:underline"
+          aria-label="login"
         >
           Já tem cadastro? Faça{' '}
           <span className="text-lg text-xs-blue">login</span>

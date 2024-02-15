@@ -82,7 +82,7 @@ export const FormSignin = () => {
         )}
       </div>
 
-      <Button className="mt-8" aria-label="entrar">
+      <Button className="mt-8" disabled={loading} aria-label="entrar">
         {loading && <Loader className="h-4 w-4 animate-spin text-white" />}
         {!loading && (
           <>

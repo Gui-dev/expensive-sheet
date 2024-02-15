@@ -48,4 +48,23 @@ describe('Sign Up Screen <Signup />', () => {
     })
     expect(await screen.findByText('O nome é obrigatório')).toBeInTheDocument()
   })
+
+  it('should show error messages when email field is empty', async () => {
+    render(<Signup />)
+    const name_input = screen.getByPlaceholderText('Digite aqui o seu Nome')
+    const password_input = screen.getByPlaceholderText(
+      'Digite aqui a sua Senha',
+    )
+
+    const button = screen.getByRole('button', { name: 'registrar' })
+
+    await waitFor(() => {
+      fireEvent.change(name_input, { target: { value: 'Bruce Wayne' } })
+      fireEvent.change(password_input, { target: { value: '123456' } })
+      fireEvent.click(button)
+    })
+    expect(
+      await screen.findByText('O e-mail é obrigatório'),
+    ).toBeInTheDocument()
+  })
 })

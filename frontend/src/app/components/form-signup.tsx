@@ -24,6 +24,7 @@ export const FormSignup = () => {
     formState: { errors },
     handleSubmit,
     register,
+    reset,
     setError,
   } = useForm<SignupValidationData>({
     resolver: zodResolver(signupValidation),
@@ -37,6 +38,7 @@ export const FormSignup = () => {
       toast('Sucesso', {
         description: 'Usuário cadastrado',
       })
+      reset()
       navigation.push('/signin')
     } catch (error) {
       const err = error as AxiosError

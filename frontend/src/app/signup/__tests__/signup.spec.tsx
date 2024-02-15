@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 
 import Signup from '../page'
 
@@ -30,5 +30,22 @@ describe('Sign Up Screen <Signup />', () => {
     expect(button).toBeInTheDocument()
     expect(link).toBeInTheDocument()
     expect(link).toHaveAttribute('href', '/signin')
+  })
+
+  it('should show error messages when name field is empty', async () => {
+    render(<Signup />)
+    const email_input = screen.getByPlaceholderText('Digite aqui o seu E-mail')
+    const password_input = screen.getByPlaceholderText(
+      'Digite aqui a sua Senha',
+    )
+
+    const button = screen.getByRole('button', { name: 'registrar' })
+
+    await waitFor(() => {
+      fireEvent.change(email_input, { target: { value: 'bruce@email.com' } })
+      fireEvent.change(password_input, { target: { value: '123456' } })
+      fireEvent.click(button)
+    })
+    expect(await screen.findByText('O nome é obrigatório')).toBeInTheDocument()
   })
 })

@@ -84,4 +84,28 @@ describe('Sign Up Screen <Signup />', () => {
       await screen.findByText('Sua senha deve ter no mínimo 6 caracteres'),
     ).toBeInTheDocument()
   })
+
+  it('should show error messages when email field is invalid', async () => {
+    render(<Signup />)
+    const email_input = screen.getByPlaceholderText('Digite aqui o seu E-mail')
+    const button = screen.getByRole('button', { name: 'registrar' })
+
+    await waitFor(() => {
+      fireEvent.click(button)
+    })
+
+    expect(
+      await screen.findByText('O e-mail é obrigatório'),
+    ).toBeInTheDocument()
+
+    await waitFor(() => {
+      fireEvent.change(email_input, { target: { value: 'bruce' } })
+      fireEvent.click(button)
+    })
+
+    expect(email_input).toHaveValue('bruce')
+    expect(
+      await screen.findByText('Digite um e-mail válido'),
+    ).toBeInTheDocument()
+  })
 })

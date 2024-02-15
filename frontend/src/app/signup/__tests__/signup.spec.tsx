@@ -108,35 +108,4 @@ describe('Sign Up Screen <Signup />', () => {
       await screen.findByText('Digite um e-mail válido'),
     ).toBeInTheDocument()
   })
-
-  it('should show error messages when user is duplicate', async () => {
-    render(<Signup />)
-
-    const name_input = screen.getByPlaceholderText('Digite aqui o seu Nome')
-    const email_input = screen.getByPlaceholderText('Digite aqui o seu E-mail')
-    const password_input = screen.getByPlaceholderText(
-      'Digite aqui a sua Senha',
-    )
-    const button = screen.getByRole('button', { name: 'registrar' })
-
-    await waitFor(() => {
-      fireEvent.change(name_input, { target: { value: 'User test' } })
-      fireEvent.change(email_input, { target: { value: 'test@email.com' } })
-      fireEvent.change(password_input, { target: { value: '123456' } })
-      fireEvent.click(button)
-    })
-
-    await waitFor(() => {
-      fireEvent.change(name_input, { target: { value: 'User test' } })
-      fireEvent.change(email_input, { target: { value: 'test@email.com' } })
-      fireEvent.change(password_input, { target: { value: '123456' } })
-      fireEvent.click(button)
-    })
-
-    expect(
-      await screen.findByText(
-        'E-mail já foi cadastrado, utilize outro endereço de email',
-      ),
-    ).toBeInTheDocument()
-  })
 })

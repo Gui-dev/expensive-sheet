@@ -3,25 +3,11 @@ import { StatusBar } from 'expo-status-bar'
 import { SafeAreaView } from 'react-native'
 import { Stack } from 'expo-router'
 
-import './../src/styles/global.css'
+const ProtectedLayout = () => {
+  // const user = false
 
-export const unstable_settings = {
-  initialRouteName: '(public)',
-}
-
-const Layout = () => {
-  // const [isLoadedFonts] = useFonts({
-  //   Roboto_400Regular,
-  //   Roboto_700Bold,
-  //   BaiJamjuree_700Bold,
-  // })
-
-  // if (!isLoadedFonts) {
-  //   return (
-  //     <View className="flex-1 items-center justify-center bg-gray-900">
-  //       <ActivityIndicator size="large" color="text-xs-green" />
-  //     </View>
-  //   )
+  // if (!user) {
+  //   return <Redirect href="/(public)" />
   // }
 
   return (
@@ -36,10 +22,10 @@ const Layout = () => {
           animation: 'fade',
         }}
       >
-        <Stack.Screen name="(public)" />
+        <Stack.Screen name="home" />
       </Stack>
     </SafeAreaView>
   )
 }
 
-export default Layout
+export default ProtectedLayout

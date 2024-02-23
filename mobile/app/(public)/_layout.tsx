@@ -1,10 +1,9 @@
-import { StatusBar } from 'expo-status-bar'
 // import { ActivityIndicator, View } from 'react-native'
 import { View } from 'react-native'
 import { Stack } from 'expo-router'
 
 const AuthLayout = () => {
-  // const user = false
+  // const user = true
 
   // if (user) {
   //   return <Redirect href="/home" />
@@ -12,7 +11,6 @@ const AuthLayout = () => {
 
   return (
     <View className="flex flex-1 bg-gray-900">
-      <StatusBar style="light" translucent />
       <Stack
         screenOptions={{
           headerShown: false,

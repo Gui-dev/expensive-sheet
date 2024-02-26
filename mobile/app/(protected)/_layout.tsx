@@ -1,18 +1,17 @@
-import { StatusBar } from 'expo-status-bar'
 // import { ActivityIndicator, View } from 'react-native'
 import { SafeAreaView } from 'react-native'
-import { Stack } from 'expo-router'
+import { Redirect, Stack } from 'expo-router'
+import { useAuth } from '../../src/hooks/useAuth'
 
 const ProtectedLayout = () => {
-  // const user = false
+  const { user } = useAuth()
 
-  // if (!user) {
-  //   return <Redirect href="/(public)" />
-  // }
+  if (!user) {
+    return <Redirect href="/(public)" />
+  }
 
   return (
     <SafeAreaView className="flex flex-1 bg-gray-900">
-      <StatusBar style="light" translucent />
       <Stack
         screenOptions={{
           headerShown: false,

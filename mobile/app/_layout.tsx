@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native'
 import { Stack } from 'expo-router'
 
 import './../src/styles/global.css'
+import { AuthProvider } from './../src/contexts/auth'
 
 export const unstable_settings = {
   initialRouteName: '(public)',
@@ -27,17 +28,19 @@ const Layout = () => {
   return (
     <SafeAreaView className="flex flex-1 bg-gray-900">
       <StatusBar style="light" translucent />
-      <Stack
-        screenOptions={{
-          headerShown: false,
-          contentStyle: {
-            backgroundColor: 'transparent',
-          },
-          animation: 'fade',
-        }}
-      >
-        <Stack.Screen name="(public)" />
-      </Stack>
+      <AuthProvider>
+        <Stack
+          screenOptions={{
+            headerShown: false,
+            contentStyle: {
+              backgroundColor: 'transparent',
+            },
+            animation: 'fade',
+          }}
+        >
+          <Stack.Screen name="(public)" />
+        </Stack>
+      </AuthProvider>
     </SafeAreaView>
   )
 }

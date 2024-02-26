@@ -1,13 +1,15 @@
 // import { ActivityIndicator, View } from 'react-native'
 import { View } from 'react-native'
-import { Stack } from 'expo-router'
+import { Redirect, Stack } from 'expo-router'
+
+import { useAuth } from '../../src/hooks/useAuth'
 
 const AuthLayout = () => {
-  // const user = true
+  const { user } = useAuth()
 
-  // if (user) {
-  //   return <Redirect href="/home" />
-  // }
+  if (user) {
+    return <Redirect href="/home" />
+  }
 
   return (
     <View className="flex flex-1 bg-gray-900">

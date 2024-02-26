@@ -1,22 +1,51 @@
-import { Text, TextInput, TouchableOpacity, View } from 'react-native'
+import {
+  ActivityIndicator,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { AxiosError } from 'axios'
 
 import {
   signinValidation,
   SigninValidationData,
 } from './../validations/signin-validation'
+import { useAuth } from '../hooks/useAuth'
 
 export const FormSignin = () => {
   const {
     control,
     handleSubmit,
     formState: { errors },
+    reset,
+    setError,
   } = useForm<SigninValidationData>({
     resolver: zodResolver(signinValidation),
   })
-  const handleSigninSubmit = ({ email, password }: SigninValidationData) => {
-    console.log({ email, password })
+  const { login, loading } = useAuth()
+
+  const handleSigninSubmit = async ({
+    email,
+    password,
+  }: SigninValidationData) => {
+    try {
+      login({ email, password })
+      reset()
+    } catch (error) {
+      console.log(error)
+      const err = error as AxiosError
+      if (err.response?.status === 401) {
+        setError('email', {
+          message: 'E-mail ou senha inválidos',
+        })
+        setError('password', {
+          message: 'E-mail ou senha inválidos',
+        })
+      }
+    }
   }
 
   return (
@@ -30,7 +59,7 @@ export const FormSignin = () => {
             <TextInput
               placeholder="Digite aqui seu e-mail"
               placeholderTextColor="#FFF"
-              className="h-12 rounded-md border border-gray-300 p-2 text-gray-300"
+              className="h-14 rounded-md border border-gray-300 p-2 text-gray-300"
               onChangeText={onChange}
               value={value}
               autoCapitalize="none"
@@ -51,9 +80,9 @@ export const FormSignin = () => {
           name="password"
           render={({ field: { onChange, value } }) => (
             <TextInput
-              placeholder="Digite aqui seu senha"
+              placeholder="Digite aqui sua senha"
               placeholderTextColor="#FFF"
-              className="h-12 rounded-md border border-gray-300 p-2 text-gray-300"
+              className="h-14 rounded-md border border-gray-300 p-2 text-gray-300"
               onChangeText={onChange}
               value={value}
               autoCapitalize="none"
@@ -69,11 +98,14 @@ export const FormSignin = () => {
       </View>
 
       <TouchableOpacity
-        className="flex h-12 items-center justify-center rounded-md bg-xs-green"
+        className="flex h-14 items-center justify-center rounded-md bg-xs-green"
         activeOpacity={0.9}
         onPress={handleSubmit(handleSigninSubmit)}
       >
-        <Text className="text-lg font-bold text-white">Entrar</Text>
+        {loading && <ActivityIndicator size="large" color="#FFF" />}
+        {!loading && (
+          <Text className="text-lg font-bold text-white">Entrar</Text>
+        )}
       </TouchableOpacity>
     </View>
   )

@@ -2,9 +2,11 @@ import { StatusBar } from 'expo-status-bar'
 // import { ActivityIndicator, View } from 'react-native'
 import { SafeAreaView } from 'react-native'
 import { Stack } from 'expo-router'
+import Toast from 'react-native-toast-message'
 
 import './../src/styles/global.css'
 import { AuthProvider } from './../src/contexts/auth'
+import { toastConfig } from '../src/config/toast'
 
 export const unstable_settings = {
   initialRouteName: '(public)',
@@ -40,6 +42,7 @@ const Layout = () => {
         >
           <Stack.Screen name="(public)" />
         </Stack>
+        <Toast position="top" config={toastConfig} />
       </AuthProvider>
     </SafeAreaView>
   )

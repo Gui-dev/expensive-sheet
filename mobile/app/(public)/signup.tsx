@@ -35,9 +35,9 @@ const Signup = () => {
           <Image source={logo} alt="Image Logo" className="h-20 w-20" />
           <Text className="text-2xl text-xs-green">Cadastro</Text>
           <FormSignup />
-          <Link href="/(public)" className="text-sm text-white">
+          <Link href="/(public)" className="mt-4 text-sm text-white">
             Já tem cadastro?{' '}
-            <Text className="mt-2 text-base font-bold text-xs-green">
+            <Text className="text-base font-bold text-xs-green">
               faça login
             </Text>
           </Link>

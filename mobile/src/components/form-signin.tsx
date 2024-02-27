@@ -104,7 +104,7 @@ export const FormSignin = () => {
       >
         {loading && <ActivityIndicator size="large" color="#FFF" />}
         {!loading && (
-          <Text className="text-lg font-bold text-white">Entrar</Text>
+          <Text className="text-lg font-bold uppercase text-white">Entrar</Text>
         )}
       </TouchableOpacity>
     </View>

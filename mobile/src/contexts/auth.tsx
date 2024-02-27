@@ -1,5 +1,3 @@
-'use client'
-
 import { ReactNode, createContext, useEffect, useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import base64 from 'base-64'
@@ -39,16 +37,11 @@ export const AuthProvider = ({ children }: IAuthProviderProps) => {
       const [check_user, check_token] = storage
       if (check_user[1] && check_token[1]) {
         setUser(JSON.parse(check_user[1]))
-
-        console.log('STORAGE_USER', check_user[1])
-        console.log('STORAGE_TOKEN', check_token[1])
       }
       setIsUserLoading(false)
     })
     setIsUserLoading(false)
   }, [])
-
-  console.log('USER', user)
 
   const login = async ({
     email,

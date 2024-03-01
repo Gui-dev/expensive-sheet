@@ -40,4 +40,18 @@ describe('<Signup />', () => {
     expect(input_email_error).toBeTruthy()
     expect(input_password_error).toBeTruthy()
   })
+
+  it('should be able to show an error when the email is invalid', async () => {
+    render(<Signup />)
+    const input_email = screen.getByPlaceholderText('Digite aqui seu e-mail')
+    const submit_button = screen.getByText('Cadastrar')
+
+    await waitFor(() => {
+      fireEvent.changeText(input_email, 'bruce')
+      fireEvent.press(submit_button)
+    })
+    const input_email_error = screen.getByText('Digite um e-mail válido')
+
+    expect(input_email_error).toBeTruthy()
+  })
 })

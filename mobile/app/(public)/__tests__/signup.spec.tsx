@@ -54,4 +54,20 @@ describe('<Signup />', () => {
 
     expect(input_email_error).toBeTruthy()
   })
+
+  it('should be able to show an error when the password is less than 6', async () => {
+    render(<Signup />)
+    const input_password = screen.getByPlaceholderText('Digite aqui sua senha')
+    const submit_button = screen.getByText('Cadastrar')
+
+    await waitFor(() => {
+      fireEvent.changeText(input_password, '123')
+      fireEvent.press(submit_button)
+    })
+    const input_password_error = screen.getByText(
+      'Sua senha deve ter no mínimo 6 caracteres',
+    )
+
+    expect(input_password_error).toBeTruthy()
+  })
 })

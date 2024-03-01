@@ -1,8 +1,8 @@
 import {
-  // fireEvent,
+  fireEvent,
   render,
   screen,
-  // waitFor,
+  waitFor,
 } from '@testing-library/react-native'
 
 import Signup from './../signup'
@@ -23,5 +23,21 @@ describe('<Signup />', () => {
     expect(input_password).toBeTruthy()
     expect(submit_button).toBeTruthy()
     expect(register_link).toBeTruthy()
+  })
+
+  it('should be able to show an error when the inputs are empty', async () => {
+    render(<Signup />)
+    const submit_button = screen.getByText('Cadastrar')
+
+    await waitFor(() => {
+      fireEvent.press(submit_button)
+    })
+    const input_name_error = screen.getByText('O nome é obrigatório')
+    const input_email_error = screen.getByText('O e-mail é obrigatório')
+    const input_password_error = screen.getByText('A senha é obrigatório')
+
+    expect(input_name_error).toBeTruthy()
+    expect(input_email_error).toBeTruthy()
+    expect(input_password_error).toBeTruthy()
   })
 })

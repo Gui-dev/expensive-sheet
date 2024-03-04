@@ -1,9 +1,8 @@
 import { ReactNode, createContext, useEffect, useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import base64 from 'base-64'
 
 import { SigninValidationData } from './../validations/signin-validation'
-import { api } from './../services/api'
+import { loginService } from '../services/login'
 
 interface IUser {
   id: string
@@ -49,11 +48,7 @@ export const AuthProvider = ({ children }: IAuthProviderProps) => {
   }: SigninValidationData): Promise<void> => {
     try {
       setLoading(true)
-      const response = await api.get('/login', {
-        headers: {
-          Authorization: 'Basic ' + base64.encode(email + ':' + password),
-        },
-      })
+      const response = await loginService({ email, password })
       await AsyncStorage.setItem('@xs:user', JSON.stringify(response.data.user))
       await AsyncStorage.setItem('@xs:token', response.data.token)
       setUser(response.data.user)

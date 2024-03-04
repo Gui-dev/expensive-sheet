@@ -16,7 +16,7 @@ import {
   signupValidation,
   SignupValidationData,
 } from './../validations/signup-validation'
-import { api } from '../services/api'
+import { createUserService } from '../services/create-user'
 
 export const FormSignup = () => {
   const {
@@ -37,7 +37,7 @@ export const FormSignup = () => {
   }: SignupValidationData) => {
     try {
       setIsLoading(true)
-      await api.post('users', { name, email, password })
+      await createUserService({ name, email, password })
       Toast.show({
         type: 'success',
         text1: 'Cadastro realizado com sucesso',

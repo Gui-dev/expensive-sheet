@@ -12,6 +12,7 @@ module.exports = {
         'xs-yellow': '#EBC455',
         'xs-raisin-black': '#16171C',
       },
+      fontFamily: ['Poppins', 'sans-serif'],
     },
   },
   plugins: [],

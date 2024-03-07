@@ -32,10 +32,9 @@ export const FormSignin = () => {
     password,
   }: SigninValidationData) => {
     try {
-      login({ email, password })
+      await login({ email, password })
       reset()
     } catch (error) {
-      console.log(error)
       const err = error as AxiosError
       if (err.response?.status === 401) {
         setError('email', {

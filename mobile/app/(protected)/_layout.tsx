@@ -1,10 +1,18 @@
 // import { ActivityIndicator, View } from 'react-native'
-import { SafeAreaView } from 'react-native'
+import { ActivityIndicator, SafeAreaView, View } from 'react-native'
 import { Redirect, Stack } from 'expo-router'
 import { useAuth } from '../../src/hooks/useAuth'
 
 const ProtectedLayout = () => {
-  const { user } = useAuth()
+  const { isUserLoading, user } = useAuth()
+
+  if (isUserLoading) {
+    return (
+      <View className="flex-1 items-center justify-center bg-gray-900">
+        <ActivityIndicator size="large" color="text-xs-green" />
+      </View>
+    )
+  }
 
   if (!user) {
     return <Redirect href="/(public)" />

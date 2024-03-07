@@ -43,6 +43,7 @@ export const FormSignup = () => {
         text1: 'Cadastro realizado com sucesso',
         text2: 'Você será redirecionado para tela de login',
       })
+      await new Promise((resolve) => setTimeout(resolve, 2000))
       router.replace('/(public)')
       setIsLoading(false)
     } catch (error) {

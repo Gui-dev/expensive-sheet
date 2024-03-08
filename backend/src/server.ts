@@ -8,8 +8,9 @@ import { AppError } from './shared/error/app-error'
 
 const app = new Koa()
 const PORT = process.env.SERVER_PORT ?? process.env.PORT
-app.use(bodyParser())
+
 app.use(cors())
+app.use(bodyParser())
 
 app.use(async (ctx, next) => {
   try {
@@ -28,6 +29,8 @@ app.use(async (ctx, next) => {
       ctx.app.emit('error', err, ctx)
       return
     }
+
+    console.log('ERROR: ', err)
 
     ctx.status = 500
     ctx.body = err

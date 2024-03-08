@@ -16,5 +16,30 @@ model User {
   updated_at DateTime  @updatedAt
   deleted_at DateTime?
 
+  transaction Transaction[]
+
   @@map("users")
+}
+
+enum Recurrence {
+  daily
+  montlhy
+  yearly
+}
+
+model Transaction {
+  id              String      @id @default(cuid())
+  user_id         String
+  description     String
+  value           Float
+  recurrence      Recurrence?
+  installments    Int?
+  is_subscription Boolean?
+  due_date        DateTime?
+  resolved        Boolean     @default(false)
+  created_at      DateTime    @default(now())
+
+  user User @relation(fields: [user_id], references: [id])
+
+  @@map("transactions")
 }

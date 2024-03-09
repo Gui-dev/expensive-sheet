@@ -28,7 +28,7 @@ enum Recurrence {
 }
 
 model Transaction {
-  id              String      @id @default(cuid())
+  id              String      @id @unique @default(cuid())
   user_id         String
   description     String
   value           Float

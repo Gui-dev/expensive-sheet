@@ -1,29 +1,25 @@
+import { type User } from '@prisma/client'
 import supertest from 'supertest'
-import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
 import { app } from './../../../server'
-import { prisma } from '../../../services/prisma'
+import { createUserRepository } from '../../users/repositories/create-user'
+import { deleteUserRepository } from '../../users/repositories/delete-user'
+
+let user: User
 
 describe('Session /login', () => {
   beforeAll(async () => {
-    const name = 'Bruce Wayne'
-    const email = 'bruce@email.com'
-    const password = '123456'
-
-    const hashed_password = await bcrypt.hash(password, 10)
-
-    await prisma.user.create({
-      data: {
-        name,
-        email,
-        password: hashed_password,
-      },
+    const random = Math.floor(Math.random() * 1000) + 1
+    user = await createUserRepository({
+      name: `test-${random}`,
+      email: `test-${random}@email.com`,
+      password: '123456',
     })
   })
 
   afterAll(async () => {
-    await prisma.user.deleteMany()
+    await deleteUserRepository({ id: user.id })
   })
 
   it('should not be able login for the user to log in with the wrong email address', async () => {
@@ -49,12 +45,9 @@ describe('Session /login', () => {
   })
 
   it('should be able login for the user to log in with correct credentials', async () => {
-    const email = 'bruce@email.com'
-    const password = '123456'
-
     const result = await supertest(app.listen())
       .get('/login')
-      .auth(email, password)
+      .auth(user.email, '123456')
     const decoded = jwt.verify(result.body.token, process.env.SECRET_WORD)
 
     expect(result.statusCode).toBe(200)

@@ -1,15 +1,25 @@
 import { type Context, type Next } from 'koa'
-import bcrypt from 'bcrypt'
 
-import { prisma } from './../../services/prisma'
-import { userCreateValidation } from './validations/user-create'
+import { prisma } from './../../../services/prisma'
+import { userCreateValidation } from './../validations/user-create'
 import {
   userUpdateIdParamValidation,
   userUpdateValidation,
-} from './validations/user-update'
-import { userDeleteIdParamValidation } from './validations/user-delete'
-import { userView } from '../../shared/views/user'
-import { AppError } from '../../shared/error/app-error'
+} from './../validations/user-update'
+import { userDeleteIdParamValidation } from './../validations/user-delete'
+import { userView } from './../../../shared/views/user'
+import { AppError } from './../../../shared/error/app-error'
+import { findUserById } from '../use-cases/find-user-by-id'
+import { createUserRepository } from './../repositories/create-user'
+import { deleteUserRepository } from './../repositories/delete-user'
+
+export const userById = async (ctx: Context, response: Next): Promise<void> => {
+  const { user_id } = userUpdateIdParamValidation.parse(ctx.request.params)
+  const user = await findUserById({ user_id })
+
+  ctx.status = 200
+  ctx.body = user
+}
 
 export const userList = async (ctx: Context, response: Next): Promise<void> => {
   const users = await prisma.user.findMany()
@@ -19,8 +29,11 @@ export const userList = async (ctx: Context, response: Next): Promise<void> => {
     ctx.body = 'users not found, try again'
     return
   }
+
+  const users_view = users.map((user) => userView(user))
+
   ctx.status = 200
-  ctx.body = users
+  ctx.body = users_view
 }
 
 export const userCreate = async (
@@ -38,14 +51,7 @@ export const userCreate = async (
   if (user_already_exists) {
     throw new AppError('User already exists', 409)
   }
-  const hashed_password = await bcrypt.hash(password, 10)
-  const user = await prisma.user.create({
-    data: {
-      name,
-      email,
-      password: hashed_password,
-    },
-  })
+  const user = await createUserRepository({ name, email, password })
   const user_view = userView(user)
 
   ctx.status = 201
@@ -79,8 +85,10 @@ export const userUpdate = async (
     },
   })
 
+  const user_view = userView(user)
+
   ctx.status = 200
-  ctx.body = user
+  ctx.body = user_view
 }
 
 export const userRemove = async (
@@ -99,11 +107,7 @@ export const userRemove = async (
     throw new AppError('User not found', 401)
   }
 
-  await prisma.user.delete({
-    where: {
-      id: user_exists.id,
-    },
-  })
+  await deleteUserRepository({ id: user_exists.id })
 
   ctx.status = 204
 }

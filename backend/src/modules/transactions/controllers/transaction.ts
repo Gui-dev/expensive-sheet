@@ -1,12 +1,12 @@
 import { type Context, type Next } from 'koa'
-import { createTransactionService } from './../services/create-transaction-service'
+import { createTransactionService } from '../use-cases/create-transaction-service'
 import { createTransactionValidation } from './../validations/create-transaction-validation'
 
 export const createTransaction = async (
   ctx: Context,
   response: Next,
 ): Promise<void> => {
-  const user_id = ctx.user_id as string
+  const user_id = ctx.request.user_id as string
   const { description, value } = createTransactionValidation.parse(
     ctx.request.body,
   )

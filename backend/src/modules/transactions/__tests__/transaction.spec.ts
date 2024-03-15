@@ -46,5 +46,4 @@ describe('Transactions', () => {
     expect(transaction.description).toEqual('fake_description')
     expect(transaction.user_id).toEqual(response.user.id)
   })
-  it.todo('should not be able to create a new transaction without value')
 })

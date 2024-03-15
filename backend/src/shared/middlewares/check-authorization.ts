@@ -20,10 +20,9 @@ export const check_authorization = async (
     }
 
     const decoded = jwt.decode(token)
-    ctx.user_id = decoded?.sub
+    ctx.request.user_id = decoded?.sub
     await next()
   } catch (error) {
-    console.log('TOKEN_ERROR: ', error)
     throw new AppError('Token not found', 401)
   }
 }

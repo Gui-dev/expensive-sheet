@@ -16,16 +16,16 @@ app.use(async (ctx, next) => {
   try {
     await next()
   } catch (err) {
-    if (err instanceof AppError) {
-      ctx.status = err.statusCode
-      ctx.body = err.message
+    if (err instanceof ZodError) {
+      ctx.status = 400
+      ctx.body = err.errors[0].message
       ctx.app.emit('error', err, ctx)
       return
     }
 
-    if (err instanceof ZodError) {
-      ctx.status = 400
-      ctx.body = err.errors[0].message
+    if (err instanceof AppError) {
+      ctx.status = err.statusCode
+      ctx.body = err.message
       ctx.app.emit('error', err, ctx)
       return
     }

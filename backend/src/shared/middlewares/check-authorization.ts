@@ -23,6 +23,7 @@ export const check_authorization = async (
     ctx.request.user_id = decoded?.sub
     await next()
   } catch (error) {
-    throw new AppError('Token not found', 401)
+    console.log('ERROR')
+    throw error
   }
 }

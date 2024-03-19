@@ -9,6 +9,8 @@ import {
 import {
   createTransaction,
   listTransaction,
+  findTransaction,
+  updateTransaction,
 } from './../modules/transactions/controllers/transaction'
 import { login } from '../modules/session/controllers/session'
 import { check_authorization } from '../shared/middlewares/check-authorization'
@@ -25,5 +27,7 @@ router.delete('/users/:user_id', check_authorization, userRemove)
 
 router.post('/transactions', check_authorization, createTransaction)
 router.get('/transactions', check_authorization, listTransaction)
+router.get('/transactions/:id', check_authorization, findTransaction)
+router.put('/transactions/:id', check_authorization, updateTransaction)
 
 export { router }

@@ -28,4 +28,20 @@ describe('Transaction Update', () => {
       }),
     ).rejects.toBeInstanceOf(AppError)
   })
+
+  it('should not be able update transaction without a transaction id', async () => {
+    const response = await sessionUseCase({
+      email: user.email,
+      password: '123456',
+    })
+
+    await expect(
+      updateTransactionUseCase({
+        id: 'fake_id',
+        user_id: response.user.id,
+        description: 'fake_description',
+        value: 10,
+      }),
+    ).rejects.toBeInstanceOf(AppError)
+  })
 })

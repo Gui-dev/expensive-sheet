@@ -10,7 +10,7 @@ interface ICreateTransactionService {
   value: number
 }
 
-export const createTransactionService = async ({
+export const createTransactionUseCase = async ({
   user_id,
   description,
   value,
@@ -18,7 +18,7 @@ export const createTransactionService = async ({
   const user_already_exists = await findUserByIdRepository({ user_id })
 
   if (!user_already_exists) {
-    throw new AppError('User not found', 401)
+    throw new AppError('User unauthorized', 403)
   }
 
   const transaction = await createTransactionRepository({

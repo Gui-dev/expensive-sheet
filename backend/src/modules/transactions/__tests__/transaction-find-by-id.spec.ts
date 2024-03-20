@@ -7,7 +7,7 @@ import { createTransactionUseCase } from '../use-cases/create-transaction-use-ca
 
 let user: User
 
-describe('Transaction Update', () => {
+describe('Transaction Find By Id', () => {
   beforeAll(async () => {
     const random = Math.floor(Math.random() * 1000) + 1
     user = await createUserRepository({

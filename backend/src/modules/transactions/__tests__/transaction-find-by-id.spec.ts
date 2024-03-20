@@ -3,6 +3,7 @@ import { AppError } from '../../../shared/error/app-error'
 import { createUserRepository } from '../../users/repositories/create-user'
 import { findTransactionByIdUseCase } from '../use-cases/find-transaction-by-id-use-case'
 import { sessionUseCase } from '../../session/use-cases/session-use-case'
+import { createTransactionUseCase } from '../use-cases/create-transaction-use-case'
 
 let user: User
 
@@ -37,5 +38,27 @@ describe('Transaction Update', () => {
         id: 'fake_id',
       }),
     ).rejects.toBeInstanceOf(AppError)
+  })
+
+  it('should be able to find a transaction', async () => {
+    const description = 'fake_description'
+    const value = 10
+    const response = await sessionUseCase({
+      email: user.email,
+      password: '123456',
+    })
+    const transaction = await createTransactionUseCase({
+      user_id: response.user.id,
+      description,
+      value,
+    })
+    const find_transaction = await findTransactionByIdUseCase({
+      id: transaction.id,
+      user_id: response.user.id,
+    })
+
+    expect(find_transaction).toHaveProperty('id')
+    expect(find_transaction.description).toEqual('fake_description')
+    expect(find_transaction.value).toEqual(10)
   })
 })

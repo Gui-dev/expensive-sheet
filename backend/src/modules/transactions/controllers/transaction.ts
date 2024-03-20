@@ -78,3 +78,11 @@ export const updateTransaction = async (
   ctx.status = 201
   ctx.body = transaction
 }
+
+export const deleteTransaction = async (
+  ctx: Context,
+  response: Next,
+): Promise<void> => {
+  // const { id } = deleteTransactionIdValidation.parse(ctx.request.params)
+  // const user_id = deleteUserIdValidation.parse(ctx.request.user_id)
+}

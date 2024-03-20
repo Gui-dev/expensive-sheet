@@ -10,6 +10,11 @@ import {
   updateUserIdValidation,
 } from '../validations/update-transaction-validation'
 import { updateTransactionUseCase } from '../use-cases/update-transaction-use-case'
+import {
+  findTransactionByIdValidation,
+  findUserByIdValidation,
+} from '../validations/find-transaction-by-id-validation'
+import { findTransactionByIdUseCase } from '../use-cases/find-transaction-by-id-use-case'
 
 export const createTransaction = async (
   ctx: Context,
@@ -39,6 +44,18 @@ export const listTransaction = async (
 
   ctx.status = 200
   ctx.body = transactions
+}
+
+export const findTransaction = async (
+  ctx: Context,
+  response: Next,
+): Promise<void> => {
+  const { id } = findTransactionByIdValidation.parse(ctx.request.params)
+  const user_id = findUserByIdValidation.parse(ctx.request.user_id)
+  const transaction = await findTransactionByIdUseCase({ id, user_id })
+
+  ctx.status = 200
+  ctx.body = transaction
 }
 
 export const updateTransaction = async (

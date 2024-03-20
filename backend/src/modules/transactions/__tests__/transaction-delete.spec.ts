@@ -3,6 +3,8 @@ import { AppError } from '../../../shared/error/app-error'
 import { deleteTransactionUseCase } from '../use-cases/delete-transaction-use-case'
 import { createUserRepository } from '../../users/repositories/create-user'
 import { sessionUseCase } from '../../session/use-cases/session-use-case'
+import { createTransactionUseCase } from '../use-cases/create-transaction-use-case'
+import { findTransactionByIdUseCase } from '../use-cases/find-transaction-by-id-use-case'
 
 let user: User
 
@@ -35,6 +37,32 @@ describe('Transaction Delete', () => {
     await expect(
       deleteTransactionUseCase({
         id: 'fake_id',
+        user_id: response.user.id,
+      }),
+    ).rejects.toBeInstanceOf(AppError)
+  })
+
+  it('should be able to delete a transaction', async () => {
+    const description = 'fake_description'
+    const value = 10
+    const response = await sessionUseCase({
+      email: user.email,
+      password: '123456',
+    })
+    const transaction = await createTransactionUseCase({
+      user_id: response.user.id,
+      description,
+      value,
+    })
+
+    await deleteTransactionUseCase({
+      id: transaction.id,
+      user_id: response.user.id,
+    })
+
+    await expect(
+      findTransactionByIdUseCase({
+        id: transaction.id,
         user_id: response.user.id,
       }),
     ).rejects.toBeInstanceOf(AppError)

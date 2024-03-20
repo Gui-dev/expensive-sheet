@@ -31,7 +31,7 @@ model Transaction {
   id              String      @id @unique @default(cuid())
   user_id         String
   description     String
-  value           Float
+  value           Decimal     @db.Decimal(8, 2)
   recurrence      Recurrence?
   installments    Int?
   is_subscription Boolean?

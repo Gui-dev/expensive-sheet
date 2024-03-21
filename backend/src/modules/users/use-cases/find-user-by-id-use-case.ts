@@ -7,7 +7,7 @@ interface IFindUserById {
   user_id: string
 }
 
-export const findUserById = async ({
+export const findUserByIdUseCase = async ({
   user_id,
 }: IFindUserById): Promise<
   Omit<User, 'password' | 'updated_at' | 'deleted_at'>

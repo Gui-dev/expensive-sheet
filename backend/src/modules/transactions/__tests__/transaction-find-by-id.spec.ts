@@ -1,6 +1,6 @@
 import { type User } from '@prisma/client'
 import { AppError } from '../../../shared/error/app-error'
-import { createUserRepository } from '../../users/repositories/create-user'
+import { createUserRepository } from '../../users/repositories/create-user-repository'
 import { findTransactionByIdUseCase } from '../use-cases/find-transaction-by-id-use-case'
 import { sessionUseCase } from '../../session/use-cases/session-use-case'
 import { createTransactionUseCase } from '../use-cases/create-transaction-use-case'
@@ -59,6 +59,6 @@ describe('Transaction Find By Id', () => {
 
     expect(find_transaction).toHaveProperty('id')
     expect(find_transaction.description).toEqual('fake_description')
-    expect(find_transaction.value).toEqual(10)
+    expect(Number(find_transaction.value)).toEqual(10)
   })
 })

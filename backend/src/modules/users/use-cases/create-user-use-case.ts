@@ -2,7 +2,7 @@ import { type User } from '@prisma/client'
 import { AppError } from '../../../shared/error/app-error'
 import { userView } from '../../../shared/views/user'
 import { createUserRepository } from '../repositories/create-user-repository'
-import { findUserByEmailRepository } from '../repositories/find-user-by-email'
+import { findUserByEmailRepository } from '../repositories/find-user-by-email-repository'
 
 interface ICreateUserUseCase {
   name: string

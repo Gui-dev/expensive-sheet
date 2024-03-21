@@ -3,7 +3,7 @@ import { type User } from '@prisma/client'
 import { createTransactionUseCase } from '../use-cases/create-transaction-use-case'
 import { listTransactionUsecase } from '../use-cases/list-transaction-use-case'
 import { AppError } from '../../../shared/error/app-error'
-import { createUserRepository } from '../../users/repositories/create-user'
+import { createUserRepository } from '../../users/repositories/create-user-repository'
 import { sessionUseCase } from '../../session/use-cases/session-use-case'
 
 let user: User

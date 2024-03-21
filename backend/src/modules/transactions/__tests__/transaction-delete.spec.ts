@@ -1,7 +1,7 @@
 import { type User } from '@prisma/client'
 import { AppError } from '../../../shared/error/app-error'
 import { deleteTransactionUseCase } from '../use-cases/delete-transaction-use-case'
-import { createUserRepository } from '../../users/repositories/create-user'
+import { createUserRepository } from '../../users/repositories/create-user-repository'
 import { sessionUseCase } from '../../session/use-cases/session-use-case'
 import { createTransactionUseCase } from '../use-cases/create-transaction-use-case'
 import { findTransactionByIdUseCase } from '../use-cases/find-transaction-by-id-use-case'

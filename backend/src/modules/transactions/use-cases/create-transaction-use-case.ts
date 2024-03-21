@@ -1,7 +1,7 @@
 import { type Transaction } from '@prisma/client'
 
 import { AppError } from '../../../shared/error/app-error'
-import { findUserByIdRepository } from '../../users/repositories/find-user-by-id'
+import { findUserByIdRepository } from '../../users/repositories/find-user-by-id-repository'
 import { createTransactionRepository } from '../repositories/create-transaction-repository'
 
 interface ICreateTransactionService {

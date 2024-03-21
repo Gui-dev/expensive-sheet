@@ -1,39 +1,22 @@
 import { type Context, type Next } from 'koa'
 
-import { prisma } from './../../../services/prisma'
-import { userCreateValidation } from './../validations/user-create'
+import { userCreateValidation } from './../validations/user-create-validation'
 import {
-  userUpdateIdParamValidation,
+  updateUserIdValidation,
   userUpdateValidation,
-} from './../validations/user-update'
-import { userDeleteIdParamValidation } from './../validations/user-delete'
-import { userView } from './../../../shared/views/user'
-import { AppError } from './../../../shared/error/app-error'
-import { findUserById } from '../use-cases/find-user-by-id'
-import { createUserRepository } from './../repositories/create-user'
-import { deleteUserRepository } from './../repositories/delete-user'
+} from './../validations/user-update-validation'
+import { findUserByIdUseCase } from '../use-cases/find-user-by-id-use-case'
+import { createUserUseCase } from '../use-cases/create-user-use-case'
+import { updateUserUseCase } from '../use-cases/update-user-use-case'
+import { deleteUserUseCase } from '../use-cases/delete-user-use-case'
+import { deleteUserIdValidation } from '../validations/user-delete-validation'
 
 export const userById = async (ctx: Context, response: Next): Promise<void> => {
-  const { user_id } = userUpdateIdParamValidation.parse(ctx.request.params)
-  const user = await findUserById({ user_id })
+  const user_id = updateUserIdValidation.parse(ctx.request.user_id)
+  const user = await findUserByIdUseCase({ user_id })
 
   ctx.status = 200
   ctx.body = user
-}
-
-export const userList = async (ctx: Context, response: Next): Promise<void> => {
-  const users = await prisma.user.findMany()
-
-  if (!users) {
-    ctx.status = 404
-    ctx.body = 'users not found, try again'
-    return
-  }
-
-  const users_view = users.map((user) => userView(user))
-
-  ctx.status = 200
-  ctx.body = users_view
 }
 
 export const userCreate = async (
@@ -42,72 +25,32 @@ export const userCreate = async (
 ): Promise<void> => {
   const { name, email, password } = userCreateValidation.parse(ctx.request.body)
 
-  const user_already_exists = await prisma.user.findUnique({
-    where: {
-      email,
-    },
-  })
-
-  if (user_already_exists) {
-    throw new AppError('User already exists', 409)
-  }
-  const user = await createUserRepository({ name, email, password })
-  const user_view = userView(user)
+  const { user } = await createUserUseCase({ name, email, password })
 
   ctx.status = 201
-  ctx.body = user_view
+  ctx.body = user
 }
 
 export const userUpdate = async (
   ctx: Context,
   response: Next,
 ): Promise<void> => {
-  const { user_id } = userUpdateIdParamValidation.parse(ctx.request.params)
+  const user_id = updateUserIdValidation.parse(ctx.request.user_id)
   const { name, password } = userUpdateValidation.parse(ctx.request.body)
 
-  const user_exists = await prisma.user.findUnique({
-    where: {
-      id: user_id,
-    },
-  })
-
-  if (!user_exists) {
-    throw new AppError('User not found', 401)
-  }
-
-  const user = await prisma.user.update({
-    where: {
-      id: user_id,
-    },
-    data: {
-      name: name ?? user_exists.name,
-      password: password ?? user_exists.password,
-    },
-  })
-
-  const user_view = userView(user)
+  const { user } = await updateUserUseCase({ user_id, name, password })
 
   ctx.status = 200
-  ctx.body = user_view
+  ctx.body = user
 }
 
 export const userRemove = async (
   ctx: Context,
   response: Next,
 ): Promise<void> => {
-  const { user_id } = userDeleteIdParamValidation.parse(ctx.request.params)
+  const user_id = deleteUserIdValidation.parse(ctx.request.user_id)
 
-  const user_exists = await prisma.user.findUnique({
-    where: {
-      id: user_id,
-    },
-  })
-
-  if (!user_exists) {
-    throw new AppError('User not found', 401)
-  }
-
-  await deleteUserRepository({ id: user_exists.id })
+  await deleteUserUseCase({ user_id })
 
   ctx.status = 204
 }

@@ -1,7 +1,7 @@
 import { type User } from '@prisma/client'
 import { AppError } from '../../../shared/error/app-error'
 import { userView } from '../../../shared/views/user'
-import { findUserByIdRepository } from '../repositories/find-user-by-id'
+import { findUserByIdRepository } from '../repositories/find-user-by-id-repository'
 
 interface IFindUserById {
   user_id: string

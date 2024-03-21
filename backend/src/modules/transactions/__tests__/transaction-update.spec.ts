@@ -1,6 +1,6 @@
 import { type User } from '@prisma/client'
 import { AppError } from '../../../shared/error/app-error'
-import { createUserRepository } from '../../users/repositories/create-user'
+import { createUserRepository } from '../../users/repositories/create-user-repository'
 import { updateTransactionUseCase } from '../use-cases/update-transaction-use-case'
 import { sessionUseCase } from '../../session/use-cases/session-use-case'
 import { createTransactionUseCase } from '../use-cases/create-transaction-use-case'
@@ -69,7 +69,7 @@ describe('Transaction Update', () => {
 
     expect(update_transaction).toHaveProperty('id')
     expect(update_transaction.description).toEqual('fake_description_update')
-    expect(update_transaction.value).toEqual(11)
+    expect(Number(update_transaction.value)).toEqual(Number(11))
     expect(update_transaction.user_id).toEqual(response.user.id)
     expect(update_transaction.id).toEqual(create_transaction.id)
   })

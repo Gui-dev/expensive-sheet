@@ -3,8 +3,8 @@ import supertest from 'supertest'
 import jwt from 'jsonwebtoken'
 
 import { app } from './../../../server'
-import { createUserRepository } from '../../users/repositories/create-user'
-import { deleteUserRepository } from '../../users/repositories/delete-user'
+import { createUserRepository } from '../../users/repositories/create-user-repository'
+import { deleteUserRepository } from '../../users/repositories/delete-user-repository'
 
 let user: User
 

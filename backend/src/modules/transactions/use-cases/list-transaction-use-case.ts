@@ -1,7 +1,7 @@
 import { type Transaction } from '@prisma/client'
 import { AppError } from '../../../shared/error/app-error'
 import { listTransactionRepository } from '../repositories/list-transaction-repository'
-import { findUserByIdRepository } from '../../users/repositories/find-user-by-id'
+import { findUserByIdRepository } from '../../users/repositories/find-user-by-id-repository'
 
 interface IListTransactionUsecase {
   user_id: string

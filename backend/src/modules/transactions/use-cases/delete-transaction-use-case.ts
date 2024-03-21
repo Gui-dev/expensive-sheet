@@ -1,5 +1,5 @@
 import { AppError } from '../../../shared/error/app-error'
-import { findUserByIdRepository } from '../../users/repositories/find-user-by-id'
+import { findUserByIdRepository } from '../../users/repositories/find-user-by-id-repository'
 import { deleteTransactionRepository } from '../repositories/delete-transaction-repository'
 import { findTransactionByIdRepository } from '../repositories/find-transaction-by-id-repository'
 

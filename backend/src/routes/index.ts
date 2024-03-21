@@ -2,7 +2,6 @@ import Router from '@koa/router'
 
 import {
   userCreate,
-  userList,
   userRemove,
   userUpdate,
 } from '../modules/users/controllers/user'
@@ -22,9 +21,8 @@ router.post('/users', userCreate)
 router.get('/login', login)
 
 // Protected Routes
-router.get('/users', check_authorization, userList)
-router.put('/users/:user_id', check_authorization, userUpdate)
-router.delete('/users/:user_id', check_authorization, userRemove)
+router.put('/me', check_authorization, userUpdate)
+router.delete('/me', check_authorization, userRemove)
 
 router.post('/transactions', check_authorization, createTransaction)
 router.get('/transactions', check_authorization, listTransaction)

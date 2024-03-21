@@ -8,7 +8,7 @@ import { sessionUseCase } from '../../session/use-cases/session-use-case'
 
 let user: User
 
-describe('Transactions', () => {
+describe('Transactions List', () => {
   beforeAll(async () => {
     const random = Math.floor(Math.random() * 1000) + 1
     user = await createUserRepository({

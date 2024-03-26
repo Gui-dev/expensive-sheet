@@ -60,6 +60,7 @@ export const FormSignin = () => {
           id="email"
           className="border border-xs-green"
           aria-label="email"
+          autoFocus={true}
           {...register('email')}
         />
         {errors && errors.email && (

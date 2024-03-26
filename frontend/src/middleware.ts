@@ -3,6 +3,7 @@ import { authRoutes, protectedRoutes } from './router/routes'
 
 export function middleware(request: NextRequest) {
   const current_user = request.cookies.get('@xs:user')?.value
+  const current_token = request.cookies.get('@xs:token')?.value
 
   if (protectedRoutes.includes(request.nextUrl.pathname) && !current_user) {
     request.cookies.delete('@xs:user')
@@ -15,6 +16,7 @@ export function middleware(request: NextRequest) {
   }
 
   if (authRoutes.includes(request.nextUrl.pathname) && current_user) {
+    request.headers.set('Authorization', `Bearer ${current_token}`)
     return NextResponse.redirect(new URL('/', request.url))
   }
 }

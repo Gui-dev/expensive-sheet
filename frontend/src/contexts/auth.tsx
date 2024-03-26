@@ -35,6 +35,7 @@ export const AuthProvider = ({ children }: IAuthProviderProps) => {
     const checkUser = getCookie('@xs:user')
     const checkToken = getCookie('@xs:token')
     if (checkUser && checkToken) {
+      api.defaults.headers.common.Authorization = `Bearer ${checkToken}`
       setUser(JSON.parse(checkUser))
     }
     setLoading(false)
@@ -46,15 +47,16 @@ export const AuthProvider = ({ children }: IAuthProviderProps) => {
   }: SigninValidationData): Promise<void> => {
     try {
       setLoading(true)
-      const response = await api.get('/login', {
+      const { data } = await api.get('/login', {
         auth: {
           username: email,
           password,
         },
       })
-      setUser(response.data.user)
-      setCookie('@xs:user', JSON.stringify(response.data.user))
-      setCookie('@xs:token', response.data.token)
+      api.defaults.headers.common.Authorization = `Bearer ${data.token}`
+      setUser(data.user)
+      setCookie('@xs:user', JSON.stringify(data.user))
+      setCookie('@xs:token', data.token)
       setLoading(false)
     } catch (error) {
       setLoading(false)

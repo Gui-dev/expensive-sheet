@@ -1,6 +1,7 @@
-// import { ActivityIndicator, View } from 'react-native'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import { Drawer } from 'expo-router/drawer'
 import { ActivityIndicator, SafeAreaView, View } from 'react-native'
-import { Redirect, Stack } from 'expo-router'
+import { Redirect } from 'expo-router'
 import { useAuth } from '../../hooks/useAuth'
 
 const ProtectedLayout = () => {
@@ -20,17 +21,17 @@ const ProtectedLayout = () => {
 
   return (
     <SafeAreaView className="flex flex-1 bg-gray-900">
-      <Stack
-        screenOptions={{
-          headerShown: false,
-          contentStyle: {
-            backgroundColor: 'transparent',
-          },
-          animation: 'fade',
-        }}
-      >
-        <Stack.Screen name="home" />
-      </Stack>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <Drawer>
+          <Drawer.Screen
+            name="home"
+            options={{
+              drawerLabel: 'Dashboard',
+              title: 'overview',
+            }}
+          />
+        </Drawer>
+      </GestureHandlerRootView>
     </SafeAreaView>
   )
 }

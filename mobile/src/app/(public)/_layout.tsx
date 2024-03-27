@@ -1,7 +1,7 @@
 import { ActivityIndicator, View } from 'react-native'
 import { Redirect, Stack } from 'expo-router'
 
-import { useAuth } from '../../src/hooks/useAuth'
+import { useAuth } from '../../hooks/useAuth'
 
 const AuthLayout = () => {
   const { isUserLoading, user } = useAuth()

@@ -5,7 +5,7 @@ import {
   waitFor,
 } from '@testing-library/react-native'
 
-import Signup from './../signup'
+import Signup from '../signup'
 
 describe('<Signup />', () => {
   it('should be able to render the Signup screen correctly', () => {

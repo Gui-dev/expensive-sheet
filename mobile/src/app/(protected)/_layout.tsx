@@ -1,7 +1,7 @@
 // import { ActivityIndicator, View } from 'react-native'
 import { ActivityIndicator, SafeAreaView, View } from 'react-native'
 import { Redirect, Stack } from 'expo-router'
-import { useAuth } from '../../src/hooks/useAuth'
+import { useAuth } from '../../hooks/useAuth'
 
 const ProtectedLayout = () => {
   const { isUserLoading, user } = useAuth()

@@ -5,7 +5,7 @@ import {
   waitFor,
 } from '@testing-library/react-native'
 
-import Signin from './../index'
+import Signin from '../index'
 
 jest.mock('@react-native-async-storage/async-storage', () => ({
   setItem: jest.fn(() => Promise.resolve()),

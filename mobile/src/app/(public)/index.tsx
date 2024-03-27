@@ -7,8 +7,8 @@ import {
   View,
 } from 'react-native'
 
-import logo from './../../src/assets/logo.png'
-import { FormSignin } from './../../src/components/form-signin'
+import logo from './../../assets/logo.png'
+import { FormSignin } from '../../components/form-signin'
 
 const Signin = () => {
   return (

@@ -9,9 +9,9 @@ import {
   Poppins_700Bold,
 } from '@expo-google-fonts/poppins'
 
-import './../src/styles/global.css'
-import { AuthProvider } from './../src/contexts/auth'
-import { toastConfig } from '../src/config/toast'
+import './../styles/global.css'
+import { AuthProvider } from '../contexts/auth'
+import { toastConfig } from '../config/toast'
 
 export const unstable_settings = {
   initialRouteName: '(public)',

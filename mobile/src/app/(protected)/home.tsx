@@ -1,5 +1,5 @@
 import { Text, TouchableOpacity, View } from 'react-native'
-import { useAuth } from '../../src/hooks/useAuth'
+import { useAuth } from '../../hooks/useAuth'
 
 const Home = () => {
   const { logout, user } = useAuth()

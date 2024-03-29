@@ -1,8 +1,10 @@
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { Drawer } from 'expo-router/drawer'
-import { ActivityIndicator, SafeAreaView, View } from 'react-native'
+import { ActivityIndicator, View } from 'react-native'
 import { Redirect } from 'expo-router'
 import { useAuth } from '../../hooks/useAuth'
+import colors from 'tailwindcss/colors'
+import Feather from '@expo/vector-icons/Feather'
 
 const ProtectedLayout = () => {
   const { isUserLoading, user } = useAuth()
@@ -20,19 +22,52 @@ const ProtectedLayout = () => {
   }
 
   return (
-    <SafeAreaView className="flex flex-1 bg-gray-900">
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <Drawer>
-          <Drawer.Screen
-            name="home"
-            options={{
-              drawerLabel: 'Dashboard',
-              title: 'overview',
-            }}
-          />
-        </Drawer>
-      </GestureHandlerRootView>
-    </SafeAreaView>
+    <GestureHandlerRootView style={{ flex: 1, position: 'relative' }}>
+      <Drawer
+        initialRouteName="Home"
+        screenOptions={{
+          headerShown: false,
+          drawerActiveTintColor: colors.gray[200],
+          drawerInactiveTintColor: colors.gray[400],
+          drawerActiveBackgroundColor: colors.gray[700],
+          drawerStyle: {
+            width: 100,
+            backgroundColor: colors.gray[800],
+          },
+          drawerContentContainerStyle: {
+            marginTop: 40,
+            marginHorizontal: 20,
+          },
+        }}
+      >
+        <Drawer.Screen
+          name="home"
+          options={{
+            title: '',
+            drawerIcon: ({ color, size }) => (
+              <Feather name="home" color={color} size={size} />
+            ),
+            drawerActiveBackgroundColor: 'transparent',
+            drawerLabelStyle: {
+              fontSize: 16,
+            },
+          }}
+        />
+        <Drawer.Screen
+          name="config"
+          options={{
+            title: '',
+            drawerIcon: ({ color, size }) => (
+              <Feather name="settings" color={color} size={size} />
+            ),
+            drawerActiveBackgroundColor: 'transparent',
+            drawerLabelStyle: {
+              fontSize: 16,
+            },
+          }}
+        />
+      </Drawer>
+    </GestureHandlerRootView>
   )
 }
 

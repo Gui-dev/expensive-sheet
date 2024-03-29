@@ -4,7 +4,7 @@ import { DrawerToggleButton } from '@react-navigation/drawer'
 import { useAuth } from '../../hooks/useAuth'
 import colors from 'tailwindcss/colors'
 
-const Home = () => {
+const Config = () => {
   const { logout, user } = useAuth()
 
   const handleLogout = async () => {
@@ -17,7 +17,7 @@ const Home = () => {
         <DrawerToggleButton tintColor={colors.gray[100]} />
       </View>
       <View className="mt-16 flex flex-1 items-center gap-8">
-        <Text className="text-2xl text-xs-green">Home</Text>
+        <Text className="text-2xl text-xs-green">Config</Text>
         <View className="flex h-32 w-full items-center justify-center bg-teal-900 p-3">
           <Text className="text-lg font-bold text-gray-200">{user?.name}</Text>
           <Text className="text-base text-gray-200">{user?.email}</Text>
@@ -34,4 +34,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default Config

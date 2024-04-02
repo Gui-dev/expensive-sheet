@@ -5,6 +5,7 @@ import { Redirect } from 'expo-router'
 import { useAuth } from '../../hooks/useAuth'
 import colors from 'tailwindcss/colors'
 import Feather from '@expo/vector-icons/Feather'
+import { DrawerCustom } from '../../components/drawer-layout'
 
 const ProtectedLayout = () => {
   const { isUserLoading, user } = useAuth()
@@ -25,45 +26,36 @@ const ProtectedLayout = () => {
     <GestureHandlerRootView style={{ flex: 1, position: 'relative' }}>
       <Drawer
         initialRouteName="Home"
+        drawerContent={(props) => <DrawerCustom {...props} />}
         screenOptions={{
           headerShown: false,
           drawerActiveTintColor: colors.gray[200],
           drawerInactiveTintColor: colors.gray[400],
           drawerActiveBackgroundColor: colors.gray[700],
           drawerStyle: {
-            width: 100,
+            width: 120,
             backgroundColor: colors.gray[800],
-          },
-          drawerContentContainerStyle: {
-            marginTop: 40,
-            marginHorizontal: 20,
           },
         }}
       >
         <Drawer.Screen
           name="home"
           options={{
-            title: '',
+            title: 'Dashboard',
             drawerIcon: ({ color, size }) => (
               <Feather name="home" color={color} size={size} />
             ),
             drawerActiveBackgroundColor: 'transparent',
-            drawerLabelStyle: {
-              fontSize: 16,
-            },
           }}
         />
         <Drawer.Screen
           name="config"
           options={{
-            title: '',
+            title: 'Settings',
             drawerIcon: ({ color, size }) => (
               <Feather name="settings" color={color} size={size} />
             ),
             drawerActiveBackgroundColor: 'transparent',
-            drawerLabelStyle: {
-              fontSize: 16,
-            },
           }}
         />
       </Drawer>

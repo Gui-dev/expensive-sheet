@@ -53,7 +53,7 @@ const ProtectedLayout = () => {
           options={{
             title: 'Settings',
             drawerIcon: ({ color, size }) => (
-              <Feather name="settings" color={color} size={size} />
+              <Feather name="bar-chart" color={color} size={size} />
             ),
             drawerActiveBackgroundColor: 'transparent',
           }}

@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import { SigninValidationData } from './../validations/signin-validation'
 import { loginService } from '../services/login'
+import { api } from '../services/api'
 
 interface IUser {
   id: string
@@ -36,6 +37,7 @@ export const AuthProvider = ({ children }: IAuthProviderProps) => {
       const [check_user, check_token] = storage
       if (check_user[1] && check_token[1]) {
         setUser(JSON.parse(check_user[1]))
+        api.defaults.headers.common.Authorization = `Bearer ${check_token[1]}`
       }
       setIsUserLoading(false)
     })
@@ -51,6 +53,7 @@ export const AuthProvider = ({ children }: IAuthProviderProps) => {
       const response = await loginService({ email, password })
       await AsyncStorage.setItem('@xs:user', JSON.stringify(response.data.user))
       await AsyncStorage.setItem('@xs:token', response.data.token)
+      api.defaults.headers.common.Authorization = `Bearer ${response.data.token}`
       setUser(response.data.user)
       setLoading(false)
     } catch (error) {
